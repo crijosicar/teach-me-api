@@ -10,8 +10,9 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { hash } from 'bcrypt';
-import { isUndefined, omit } from 'lodash';
-import { ACTIVE_STATUS } from '../constants';
+import { isUndefined } from 'lodash';
+import { ACTIVE_STATUS, STUDENT_ROLE } from '../constants';
+import { RoleService } from '../role/role.service';
 import { CreateUserDto } from './createUser.dto';
 import { User } from './user.interface';
 import { userValidationSchema } from './user.schema';
@@ -19,7 +20,10 @@ import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly roleService: RoleService,
+  ) {}
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
@@ -48,6 +52,10 @@ export class UserController {
         createdAt,
         status: ACTIVE_STATUS,
       });
+
+      const studentRole = await this.roleService.findByName(STUDENT_ROLE);
+
+      await this.userService.addRoleToUserById(userCreated.id, studentRole.id);
 
       return userCreated;
     } catch (error) {
