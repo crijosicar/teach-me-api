@@ -97,8 +97,6 @@
       "<rootDir>/src/",
       "<rootDir>/libs/"
     ],
-    "moduleNameMapper": {
-      "@app/user": "<rootDir>/libs/user/src"
-    }
+    "moduleNameMapper": {}
   }
 }
