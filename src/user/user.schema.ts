@@ -1,6 +1,6 @@
 import * as Joi from '@hapi/joi';
 import * as mongoose from 'mongoose';
-import { ROLE_MODEL } from '../constants';
+import { ROLE_MODEL, SUBJECT_MODEL } from '../constants';
 
 export const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -11,6 +11,13 @@ export const UserSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: ROLE_MODEL,
+      required: true,
+    },
+  ],
+  subjects: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: SUBJECT_MODEL,
     },
   ],
   status: { type: String, required: true },

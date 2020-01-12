@@ -1,7 +1,6 @@
-export interface CreateRoleDto {
+export interface CreatePermissionDto {
   name: string;
   description: string;
-  permissions: string[];
   status?: string;
   createdAt?: string;
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { USER_MODEL, ROLE_MODEL } from '../constants';
+import { ROLE_MODEL, SUBJECT_MODEL, USER_MODEL } from '../constants';
 import { CreateUserDto } from './createUser.dto';
 import { User } from './user.interface';
 
@@ -16,7 +16,9 @@ export class UserService {
   }
 
   async find(id: string): Promise<User> {
-    return this.userModel.findById(id).populate(`+${ROLE_MODEL}`);
+    return this.userModel
+      .findById(id)
+      .populate(`+${ROLE_MODEL} +${SUBJECT_MODEL}`);
   }
 
   async findByEmail(email: string): Promise<User> {
@@ -30,6 +32,17 @@ export class UserService {
     return this.userModel.findByIdAndUpdate(
       userId,
       { $push: { roles: roleId } },
+      { new: true },
+    );
+  }
+
+  async addSubjectsToUserById(
+    userId: string,
+    subjectsIds: string[],
+  ): Promise<User> {
+    return this.userModel.findByIdAndUpdate(
+      userId,
+      { $push: { subjects: subjectsIds } },
       { new: true },
     );
   }

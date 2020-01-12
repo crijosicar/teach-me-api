@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { isUndefined } from 'lodash';
+import { Permission } from 'src/permission/permission.interface';
+import { PermissionService } from 'src/permission/permission.service';
 import { ACTIVE_STATUS } from '../constants';
 import { CreateRoleDto } from './createRole.dto';
 import { Role } from './role.interface';
@@ -18,7 +20,10 @@ import { RoleService } from './role.service';
 
 @Controller('role')
 export class RoleController {
-  constructor(private readonly roleService: RoleService) {}
+  constructor(
+    private readonly roleService: RoleService,
+    private readonly permissionService: PermissionService,
+  ) {}
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
@@ -36,6 +41,16 @@ export class RoleController {
   async create(@Body() createRoleDto: CreateRoleDto): Promise<Role> {
     try {
       await roleValidationSchema.validateAsync(createRoleDto);
+
+      const resolvedPromisesArray = await Promise.all(
+        createRoleDto.permissions.map(
+          (permissionId: string): Promise<Permission> => {
+            return this.permissionService.find(permissionId);
+          },
+        ),
+      );
+
+      console.log('resolvedPromisesArray => ', resolvedPromisesArray);
 
       const createdAt = new Date().valueOf().toString();
 

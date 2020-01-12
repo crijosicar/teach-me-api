@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ROLE_MODEL } from '../constants';
+import { PermissionSchema } from 'src/permission/permission.schema';
+import { PermissionService } from 'src/permission/permission.service';
+import { PERMISSION_MODEL, ROLE_MODEL } from '../constants';
 import { RoleController } from './role.controller';
 import { RoleSchema } from './role.schema';
 import { RoleService } from './role.service';
@@ -9,9 +11,12 @@ import { RoleService } from './role.service';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    MongooseModule.forFeature([{ name: ROLE_MODEL, schema: RoleSchema }]),
+    MongooseModule.forFeature([
+      { name: ROLE_MODEL, schema: RoleSchema },
+      { name: PERMISSION_MODEL, schema: PermissionSchema },
+    ]),
   ],
-  providers: [RoleService],
+  providers: [RoleService, PermissionService],
   controllers: [RoleController],
   exports: [RoleService],
 })
