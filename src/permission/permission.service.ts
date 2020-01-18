@@ -17,9 +17,7 @@ export class PermissionService {
   }
 
   async find(id: string): Promise<Permission> {
-    const permission = this.roleModel.findById(id);
-    console.log('permission => ', permission);
-    return permission;
+    return this.roleModel.findById(id);
   }
 
   async findByName(name: string): Promise<Permission> {

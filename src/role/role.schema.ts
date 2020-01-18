@@ -9,7 +9,7 @@ export const RoleSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: PERMISSION_MODEL,
-      required: true,
+      required: false,
     },
   ],
   status: { type: String, required: true },
@@ -21,8 +21,10 @@ export const roleValidationSchema = Joi.object({
     .min(3)
     .required(),
   description: Joi.string(),
+});
+
+export const rolePermissionsValidationSchema = Joi.object({
   permissions: Joi.array()
     .items(Joi.string())
-    .min(1)
     .required(),
 });

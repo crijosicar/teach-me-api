@@ -1,9 +1,16 @@
-import { CacheModule, Module } from '@nestjs/common';
+import {
+  CacheModule,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
+import { CheckIdMiddleware } from './middleware/checkId.middleware';
 import { PermissionModule } from './permission/permission.module';
 import { RoleModule } from './role/role.module';
 import { SubjectModule } from './subject/subject.module';
@@ -26,4 +33,10 @@ const { DATABASE_HOST } = process.env;
   controllers: [AppController],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(CheckIdMiddleware)
+      .forRoutes({ path: 'role/:id/permissions', method: RequestMethod.POST });
+  }
+}

@@ -9,13 +9,17 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { isUndefined } from 'lodash';
+import { compact, isUndefined, map, pick } from 'lodash';
 import { Permission } from 'src/permission/permission.interface';
 import { PermissionService } from 'src/permission/permission.service';
 import { ACTIVE_STATUS } from '../constants';
+import { AssignRolePermissionsDto } from './assignRolePermissions.dto';
 import { CreateRoleDto } from './createRole.dto';
 import { Role } from './role.interface';
-import { roleValidationSchema } from './role.schema';
+import {
+  rolePermissionsValidationSchema,
+  roleValidationSchema,
+} from './role.schema';
 import { RoleService } from './role.service';
 
 @Controller('role')
@@ -42,18 +46,7 @@ export class RoleController {
     try {
       await roleValidationSchema.validateAsync(createRoleDto);
 
-      const resolvedPromisesArray = await Promise.all(
-        createRoleDto.permissions.map(
-          (permissionId: string): Promise<Permission> => {
-            return this.permissionService.find(permissionId);
-          },
-        ),
-      );
-
-      console.log('resolvedPromisesArray => ', resolvedPromisesArray);
-
       const createdAt = new Date().valueOf().toString();
-
       const roleCreated = await this.roleService.create({
         ...createRoleDto,
         createdAt,
@@ -61,6 +54,50 @@ export class RoleController {
       });
 
       return roleCreated;
+    } catch (error) {
+      const message = isUndefined(error.response)
+        ? error.message
+        : error.response.data;
+      const statusCode = isUndefined(error.response)
+        ? HttpStatus.INTERNAL_SERVER_ERROR
+        : error.response.status;
+      throw new HttpException(message, statusCode);
+    }
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post(':id/permissions')
+  async assignRolePermissions(
+    @Param('id') id: string,
+    @Body() assignRolePermissionsDto: AssignRolePermissionsDto,
+  ): Promise<Role> {
+    try {
+      await rolePermissionsValidationSchema.validateAsync(
+        assignRolePermissionsDto,
+      );
+
+      const role = await this.roleService.find(id);
+
+      if (!role) throw new Error('Not valid Role provided');
+
+      const { permissions } = assignRolePermissionsDto;
+      const permissionsResolved = await Promise.all(
+        permissions.map((permission: string) =>
+          this.permissionService.find(permission),
+        ),
+      );
+      const compactedPermissions = compact(permissionsResolved);
+
+      if (!compactedPermissions.length)
+        throw new Error('Not valid Permissions provided');
+
+      const permissionsIds = map(compactedPermissions, '_id');
+      const rolePermissionAssignated = await this.roleService.addRolePermissions(
+        id,
+        permissionsIds,
+      );
+
+      return rolePermissionAssignated;
     } catch (error) {
       const message = isUndefined(error.response)
         ? error.message
