@@ -1,14 +1,12 @@
-import { Document } from 'mongoose';
-import { Role } from 'src/role/role.interface';
-import { Subject } from 'src/subject/subject.interface';
+import { Document, Schema } from 'mongoose';
 
 export interface User extends Document {
   readonly name: string;
   readonly email: string;
   readonly password: string;
   readonly birthdate: string;
-  readonly roles: Role[];
-  readonly subjects: Subject[];
+  readonly roles: Schema.Types.ObjectId[];
+  readonly subjects: Schema.Types.ObjectId[];
   readonly status: string;
   readonly createdAt: string;
 }

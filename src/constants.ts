@@ -6,6 +6,8 @@ export const ROLE_MODEL = 'Role';
 
 export const PERMISSION_MODEL = 'Permission';
 
+export const EDUCATIONAL_LEVEL_MODEL = 'EducationalLevel';
+
 export const ACTIVE_STATUS = 'ACTIVE';
 
 export const STUDENT_ROLE = 'STUDENT';

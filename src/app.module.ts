@@ -10,7 +10,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
-import { CheckIdMiddleware } from './middleware/checkId.middleware';
+import { EducationalLevelModule } from './educational-level/educational-level.module';
+import { CheckIdMiddleware } from './middleware/check-id.middleware';
 import { PermissionModule } from './permission/permission.module';
 import { RoleModule } from './role/role.module';
 import { SubjectModule } from './subject/subject.module';
@@ -29,6 +30,7 @@ const { DATABASE_HOST } = process.env;
     MongooseModule.forRoot(DATABASE_HOST!),
     RoleModule,
     PermissionModule,
+    EducationalLevelModule,
   ],
   controllers: [AppController],
   providers: [],
