@@ -16,9 +16,7 @@ export class UserService {
   }
 
   async find(id: string): Promise<User> {
-    return this.userModel
-      .findById(id)
-      .populate(`+${ROLE_MODEL} +${SUBJECT_MODEL}`);
+    return this.userModel.findById(id);
   }
 
   async findByEmail(email: string): Promise<User> {
@@ -28,10 +26,10 @@ export class UserService {
       .exec();
   }
 
-  async addRoleToUserById(userId: string, roleId: string): Promise<User> {
+  async addRoleToUserById(userId: string, rolesIds: string[]): Promise<User> {
     return this.userModel.findByIdAndUpdate(
       userId,
-      { $push: { roles: roleId } },
+      { $addToSet: { roles: rolesIds } },
       { new: true },
     );
   }
@@ -42,7 +40,7 @@ export class UserService {
   ): Promise<User> {
     return this.userModel.findByIdAndUpdate(
       userId,
-      { $push: { subjects: subjectsIds } },
+      { $addToSet: { subjects: subjectsIds } },
       { new: true },
     );
   }

@@ -25,7 +25,7 @@ async function bootstrap() {
   app.use(compression());
 
   const options = new DocumentBuilder()
-    .setTitle('Subject example')
+    .setTitle('Subject')
     .setDescription('The subjects API description')
     .setVersion('1.0')
     .addTag('subjects')

@@ -33,8 +33,10 @@ export class RoleService {
     roleId: string,
     permissionsIds: string[],
   ): Promise<Role> {
-    return this.roleModel.findByIdAndUpdate(roleId, {
-      $addToSet: { permissions: permissionsIds },
-    });
+    return this.roleModel.findByIdAndUpdate(
+      roleId,
+      { $addToSet: { permissions: permissionsIds } },
+      { new: true },
+    );
   }
 }

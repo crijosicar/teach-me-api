@@ -55,7 +55,11 @@ export class UserController {
 
       const studentRole = await this.roleService.findByName(STUDENT_ROLE);
 
-      await this.userService.addRoleToUserById(userCreated.id, studentRole.id);
+      if (!studentRole) throw new Error('Role provided does not exist.');
+
+      await this.userService.addRoleToUserById(userCreated.id, [
+        studentRole.id,
+      ]);
 
       return userCreated;
     } catch (error) {
