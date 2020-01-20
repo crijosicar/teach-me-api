@@ -14,3 +14,9 @@ export const subjectValidationSchema = Joi.object({
     .required(),
   description: Joi.string(),
 });
+
+export const eduLevelsValidationSchema = Joi.object({
+  educationalLevels: Joi.array()
+    .items(Joi.string())
+    .required(),
+});
