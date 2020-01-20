@@ -6,11 +6,15 @@ import {
   HttpStatus,
   Param,
   Post,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { hash } from 'bcrypt';
 import { isUndefined } from 'lodash';
+import { extname } from 'path';
 import { ACTIVE_STATUS, STUDENT_ROLE } from '../constants';
 import { RoleService } from '../role/role.service';
 import { CreateUserDto } from './createUser.dto';
@@ -72,4 +76,36 @@ export class UserController {
       throw new HttpException(message, statusCode);
     }
   }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post(':id/upload/profile')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      dest: './uploads/profile',
+    }),
+  )
+  async uploadFile(@UploadedFile() file: any) {
+    const response = {
+      originalname: file.originalname,
+      filename: file.filename,
+    };
+    return response;
+  }
+
+  editFileName = (req: any, file: any, callback: CallableFunction) => {
+    const name = file.originalname.split('.')[0];
+    const fileExtName = extname(file.originalname);
+    const randomName = Array(4)
+      .fill(null)
+      .map(() => Math.round(Math.random() * 16).toString(16))
+      .join('');
+    callback(null, `${name}-${randomName}${fileExtName}`);
+  };
+
+  imageFileFilter = (req: any, file: any, callback: CallableFunction) => {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/))
+      return callback(new Error('Only image files are allowed!'), false);
+
+    callback(null, true);
+  };
 }
