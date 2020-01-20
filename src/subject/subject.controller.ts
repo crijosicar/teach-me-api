@@ -84,12 +84,12 @@ export class SubjectController {
         throw new Error('Not valid Educational Levels provided');
 
       const educationalLevelsIds = map(compactedEducationalLevels, '_id');
-      const educationalLevelsAssignated = await this.subjectService.addEducationalLevelsSubject(
+      const educationalLevelsAssigned = await this.subjectService.addEducationalLevelsSubject(
         id,
         educationalLevelsIds,
       );
 
-      return educationalLevelsAssignated;
+      return educationalLevelsAssigned;
     } catch (error) {
       const message = isUndefined(error.response)
         ? error.message

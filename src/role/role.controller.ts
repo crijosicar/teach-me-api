@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { compact, isUndefined, map, pick } from 'lodash';
-import { Permission } from 'src/permission/permission.interface';
 import { PermissionService } from 'src/permission/permission.service';
 import { ACTIVE_STATUS } from '../constants';
 import { AddRolePermissionsDto } from './addRolePermissions.dto';
@@ -92,12 +91,12 @@ export class RoleController {
         throw new Error('Not valid Permissions provided');
 
       const permissionsIds = map(compactedPermissions, '_id');
-      const rolePermissionAssignated = await this.roleService.addRolePermissions(
+      const rolePermissionAssigned = await this.roleService.addRolePermissions(
         id,
         permissionsIds,
       );
 
-      return rolePermissionAssignated;
+      return rolePermissionAssigned;
     } catch (error) {
       const message = isUndefined(error.response)
         ? error.message
