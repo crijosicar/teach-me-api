@@ -13,7 +13,7 @@ import { compact, isUndefined, map, pick } from 'lodash';
 import { Permission } from 'src/permission/permission.interface';
 import { PermissionService } from 'src/permission/permission.service';
 import { ACTIVE_STATUS } from '../constants';
-import { AssignRolePermissionsDto } from './assignRolePermissions.dto';
+import { AddRolePermissionsDto } from './addRolePermissions.dto';
 import { CreateRoleDto } from './createRole.dto';
 import { Role } from './role.interface';
 import {
@@ -69,18 +69,18 @@ export class RoleController {
   @Post(':id/permissions')
   async assignRolePermissions(
     @Param('id') id: string,
-    @Body() assignRolePermissionsDto: AssignRolePermissionsDto,
+    @Body() addRolePermissionsDto: AddRolePermissionsDto,
   ): Promise<Role> {
     try {
       await rolePermissionsValidationSchema.validateAsync(
-        assignRolePermissionsDto,
+        addRolePermissionsDto,
       );
 
       const role = await this.roleService.find(id);
 
       if (!role) throw new Error('Not valid Role provided');
 
-      const { permissions } = assignRolePermissionsDto;
+      const { permissions } = addRolePermissionsDto;
       const permissionsResolved = await Promise.all(
         permissions.map((permission: string) =>
           this.permissionService.find(permission),

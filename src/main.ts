@@ -13,6 +13,7 @@ async function bootstrap() {
     cors: true,
     logger: ['error', 'warn'],
   });
+  app.setGlobalPrefix('v1');
 
   app.use(helmet());
   // app.use(csurf());
