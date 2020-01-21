@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Res,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -13,8 +14,10 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { hash } from 'bcrypt';
-import { isUndefined } from 'lodash';
-import { extname } from 'path';
+import { Response } from 'express';
+import { compact, isUndefined, last } from 'lodash';
+import { diskStorage } from 'multer';
+import { editFileName, imageFileFilter } from '../common/file-upload.util';
 import { ACTIVE_STATUS, STUDENT_ROLE } from '../constants';
 import { RoleService } from '../role/role.service';
 import { CreateUserDto } from './createUser.dto';
@@ -78,34 +81,50 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Post(':id/upload/profile')
+  @Post(':id/upload/avatar')
   @UseInterceptors(
     FileInterceptor('file', {
-      dest: './uploads/profile',
+      storage: diskStorage({
+        destination: './uploads/avatar',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
     }),
   )
-  async uploadFile(@UploadedFile() file: any) {
-    const response = {
-      originalname: file.originalname,
-      filename: file.filename,
-    };
-    return response;
+  async uploadFile(@Param('id') id: string, @UploadedFile() file: any) {
+    try {
+      const response = {
+        originalname: file.originalname,
+        filename: file.filename,
+      };
+      await this.userService.addAvatarToUserById(id, file.path);
+      return response;
+    } catch (error) {
+      const message = isUndefined(error.response)
+        ? error.message
+        : error.response.data;
+      const statusCode = isUndefined(error.response)
+        ? HttpStatus.INTERNAL_SERVER_ERROR
+        : error.response.status;
+      throw new HttpException(message, statusCode);
+    }
   }
 
-  editFileName = (req: any, file: any, callback: CallableFunction) => {
-    const name = file.originalname.split('.')[0];
-    const fileExtName = extname(file.originalname);
-    const randomName = Array(4)
-      .fill(null)
-      .map(() => Math.round(Math.random() * 16).toString(16))
-      .join('');
-    callback(null, `${name}-${randomName}${fileExtName}`);
-  };
-
-  imageFileFilter = (req: any, file: any, callback: CallableFunction) => {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/))
-      return callback(new Error('Only image files are allowed!'), false);
-
-    callback(null, true);
-  };
+  @UseGuards(AuthGuard('jwt'))
+  @Get(':id/avatar')
+  async getAvatar(@Param('id') id: string, @Res() res: Response) {
+    try {
+      const user: User = await this.userService.find(id);
+      const avatar = last(compact(user.avatars));
+      res.sendFile(avatar, { root: './' });
+    } catch (error) {
+      const message = isUndefined(error.response)
+        ? error.message
+        : error.response.data;
+      const statusCode = isUndefined(error.response)
+        ? HttpStatus.INTERNAL_SERVER_ERROR
+        : error.response.status;
+      throw new HttpException(message, statusCode);
+    }
+  }
 }

@@ -20,6 +20,7 @@ export const UserSchema = new mongoose.Schema({
       ref: SUBJECT_MODEL,
     },
   ],
+  avatars: [{ type: String }],
   status: { type: String, required: true },
   createdAt: { type: String, required: true },
 });

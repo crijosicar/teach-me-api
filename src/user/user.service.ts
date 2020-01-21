@@ -49,4 +49,12 @@ export class UserService {
     const createdUser = new this.userModel(createUserDto);
     return createdUser.save();
   }
+
+  async addAvatarToUserById(userId: string, filePath: string): Promise<User> {
+    return this.userModel.findByIdAndUpdate(
+      userId,
+      { $push: { avatars: filePath } },
+      { new: true },
+    );
+  }
 }

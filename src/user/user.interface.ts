@@ -7,6 +7,7 @@ export interface User extends Document {
   readonly birthdate: string;
   readonly roles: Schema.Types.ObjectId[];
   readonly subjects: Schema.Types.ObjectId[];
+  readonly avatars: string[];
   readonly status: string;
   readonly createdAt: string;
 }

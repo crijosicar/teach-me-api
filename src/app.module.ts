@@ -16,6 +16,10 @@ import { PermissionModule } from './permission/permission.module';
 import { RoleModule } from './role/role.module';
 import { SubjectModule } from './subject/subject.module';
 import { UserModule } from './user/user.module';
+import { SkillService } from './skill/skill.service';
+import { SkillModule } from './skill/skill.module';
+import { CourseController } from './course/course.controller';
+import { CourseModule } from './course/course.module';
 
 const { DATABASE_HOST } = process.env;
 
@@ -31,9 +35,11 @@ const { DATABASE_HOST } = process.env;
     RoleModule,
     PermissionModule,
     EducationalLevelModule,
+    SkillModule,
+    CourseModule,
   ],
-  controllers: [AppController],
-  providers: [],
+  controllers: [AppController, CourseController],
+  providers: [SkillService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -16,9 +16,8 @@ export class AuthService {
     const validPassword = await compare(password, user.password);
     let response = null;
 
-    if (user && validPassword) {
-      response = user;
-    }
+    if (user && validPassword) response = user;
+
     return response;
   }
 
