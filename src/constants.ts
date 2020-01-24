@@ -8,6 +8,10 @@ export const PERMISSION_MODEL = 'Permission';
 
 export const EDUCATIONAL_LEVEL_MODEL = 'EducationalLevel';
 
+export const SKILL_MODEL = 'Skill';
+
+export const COURSE_MODEL = 'Course';
+
 export const ACTIVE_STATUS = 'ACTIVE';
 
 export const STUDENT_ROLE = 'STUDENT';

@@ -10,16 +10,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
+import { CourseModule } from './course/course.module';
 import { EducationalLevelModule } from './educational-level/educational-level.module';
 import { CheckIdMiddleware } from './middleware/check-id.middleware';
 import { PermissionModule } from './permission/permission.module';
 import { RoleModule } from './role/role.module';
+import { SkillModule } from './skill/skill.module';
 import { SubjectModule } from './subject/subject.module';
 import { UserModule } from './user/user.module';
-import { SkillService } from './skill/skill.service';
-import { SkillModule } from './skill/skill.module';
-import { CourseController } from './course/course.controller';
-import { CourseModule } from './course/course.module';
 
 const { DATABASE_HOST } = process.env;
 
@@ -38,8 +36,8 @@ const { DATABASE_HOST } = process.env;
     SkillModule,
     CourseModule,
   ],
-  controllers: [AppController, CourseController],
-  providers: [SkillService],
+  controllers: [AppController],
+  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -1,4 +1,4 @@
-export interface CreateSkillDto {
+export interface CreateCourseDto {
   name: string;
   description: string;
   status?: string;
