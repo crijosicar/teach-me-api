@@ -57,4 +57,37 @@ export class UserService {
       { new: true },
     );
   }
+
+  async addSkillsToUserById(
+    userId: string,
+    skillsIds: string[],
+  ): Promise<User> {
+    return this.userModel.findByIdAndUpdate(
+      userId,
+      { $addToSet: { skills: skillsIds } },
+      { new: true },
+    );
+  }
+
+  async addCoursesToUserById(
+    userId: string,
+    coursesIds: string[],
+  ): Promise<User> {
+    return this.userModel.findByIdAndUpdate(
+      userId,
+      { $addToSet: { courses: coursesIds } },
+      { new: true },
+    );
+  }
+
+  async addStudiesToUserById(
+    userId: string,
+    studiesIds: string[],
+  ): Promise<User> {
+    return this.userModel.findByIdAndUpdate(
+      userId,
+      { $addToSet: { studies: studiesIds } },
+      { new: true },
+    );
+  }
 }

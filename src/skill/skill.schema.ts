@@ -1,12 +1,14 @@
 import * as Joi from '@hapi/joi';
 import * as mongoose from 'mongoose';
 
-export const SkillSchema = new mongoose.Schema({
-  name: { type: String, index: true, required: true },
-  description: { type: String, required: true },
-  status: { type: String, required: true },
-  createdAt: { type: String, required: true },
-});
+export const SkillSchema = new mongoose.Schema(
+  {
+    name: { type: String, index: true, required: true },
+    description: { type: String, required: true },
+    status: { type: String, required: true },
+  },
+  { timestamps: true },
+);
 
 export const skillValidationSchema = Joi.object({
   name: Joi.string()

@@ -15,14 +15,18 @@ import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { hash } from 'bcrypt';
 import { Response } from 'express';
-import { compact, isUndefined, last } from 'lodash';
+import { compact, isUndefined, last, map } from 'lodash';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from '../common/file-upload.util';
 import { ACTIVE_STATUS, STUDENT_ROLE } from '../constants';
 import { RoleService } from '../role/role.service';
+import { AdditionalDataUserDto } from './AdditionalDataUser.dto';
 import { CreateUserDto } from './createUser.dto';
 import { User } from './user.interface';
-import { userValidationSchema } from './user.schema';
+import {
+  additionalUserDataValidationSchema,
+  userValidationSchema,
+} from './user.schema';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -117,6 +121,40 @@ export class UserController {
       const user: User = await this.userService.find(id);
       const avatar = last(compact(user.avatars));
       res.sendFile(avatar, { root: './' });
+    } catch (error) {
+      const message = isUndefined(error.response)
+        ? error.message
+        : error.response.data;
+      const statusCode = isUndefined(error.response)
+        ? HttpStatus.INTERNAL_SERVER_ERROR
+        : error.response.status;
+      throw new HttpException(message, statusCode);
+    }
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get(':id/avatar')
+  async setAdditionalData(
+    @Param('id') id: string,
+    @Body() additionalDataUserDto: AdditionalDataUserDto,
+  ) {
+    try {
+      const user: User = await this.userService.find(id);
+
+      if (!user) throw new Error('User provided does not exist.');
+
+      await additionalUserDataValidationSchema.validateAsync(
+        additionalDataUserDto,
+      );
+
+      const { courses, studies, skills } = additionalDataUserDto;
+
+      if (courses)
+        await this.userService.addCoursesToUserById(id, map(courses, '_id'));
+      if (skills)
+        await this.userService.addSkillsToUserById(id, map(skills, '_id'));
+      if (studies)
+        await this.userService.addStudiesToUserById(id, map(studies, '_id'));
     } catch (error) {
       const message = isUndefined(error.response)
         ? error.message
