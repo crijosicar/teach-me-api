@@ -1,5 +1,5 @@
 import * as Joi from '@hapi/joi';
-import * as mongoose from 'mongoose';
+import { Schema } from 'mongoose';
 import {
   COURSE_MODEL,
   ROLE_MODEL,
@@ -7,51 +7,52 @@ import {
   SUBJECT_MODEL,
 } from '../constants';
 
-export const UserSchema = new mongoose.Schema(
+export const UserSchema = new Schema(
   {
-    name: { type: String, required: true },
-    email: { type: String, index: true, unique: true, required: true },
-    password: { type: String, required: true, select: false },
+    avatars: [{ type: String }],
     birthdate: { type: String, required: true },
+    email: { type: String, index: true, unique: true, required: true },
+    name: { type: String, required: true },
+    password: { type: String, required: true, select: false },
     roles: [
       {
-        type: mongoose.Schema.Types.ObjectId,
         ref: ROLE_MODEL,
         required: true,
+        type: Schema.Types.ObjectId,
       },
     ],
     subjects: [
       {
-        type: mongoose.Schema.Types.ObjectId,
         ref: SUBJECT_MODEL,
+        type: Schema.Types.ObjectId,
       },
     ],
-    avatars: [{ type: String }],
-    skills: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: SKILL_MODEL,
-      },
-    ],
+
     courses: [
       {
-        type: mongoose.Schema.Types.ObjectId,
         ref: COURSE_MODEL,
+        type: Schema.Types.ObjectId,
       },
     ],
-    studies: [{ type: Object }],
+    skills: [
+      {
+        ref: SKILL_MODEL,
+        type: Schema.Types.ObjectId,
+      },
+    ],
     status: { type: String, required: true },
+    studies: [{ type: Object }],
   },
   { timestamps: true },
 );
 
 export const userValidationSchema = Joi.object({
+  birthdate: Joi.string().required(),
+  email: Joi.string().email({ minDomainSegments: 2 }),
   name: Joi.string()
     .min(3)
     .required(),
   password: Joi.string(),
-  birthdate: Joi.string().required(),
-  email: Joi.string().email({ minDomainSegments: 2 }),
 });
 
 export const additionalUserDataValidationSchema = Joi.object({

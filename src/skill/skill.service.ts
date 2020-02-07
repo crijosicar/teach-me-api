@@ -25,6 +25,7 @@ export class SkillService {
 
   async create(createSkillDto: CreateSkillDto): Promise<Skill> {
     const createdSkill = new this.skillModel(createSkillDto);
+
     return createdSkill.save();
   }
 }

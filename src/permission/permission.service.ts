@@ -26,6 +26,7 @@ export class PermissionService {
 
   async create(createPermissionDto: CreatePermissionDto): Promise<Permission> {
     const createdPermission = new this.roleModel(createPermissionDto);
+
     return createdPermission.save();
   }
 }

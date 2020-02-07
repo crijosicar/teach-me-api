@@ -7,14 +7,14 @@ import { EducationalLevelSchema } from './educational-level.schema';
 import { EducationalLevelService } from './educational-level.service';
 
 @Module({
+  controllers: [EducationalLevelController],
+  exports: [EducationalLevelService],
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forFeature([
       { name: EDUCATIONAL_LEVEL_MODEL, schema: EducationalLevelSchema },
     ]),
   ],
-  controllers: [EducationalLevelController],
   providers: [EducationalLevelService],
-  exports: [EducationalLevelService],
 })
 export class EducationalLevelModule {}

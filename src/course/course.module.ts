@@ -7,12 +7,12 @@ import { CourseSchema } from './course.schema';
 import { CourseService } from './course.service';
 
 @Module({
+  controllers: [CourseController],
+  exports: [],
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forFeature([{ name: COURSE_MODEL, schema: CourseSchema }]),
   ],
   providers: [CourseService],
-  controllers: [CourseController],
-  exports: [],
 })
 export class CourseModule {}

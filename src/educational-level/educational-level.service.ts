@@ -28,6 +28,7 @@ export class EducationalLevelService {
     createEduLevelDto: CreateEduLevelDto,
   ): Promise<EducationalLevel> {
     const createdPermission = new this.educationalLevelModel(createEduLevelDto);
+
     return createdPermission.save();
   }
 }

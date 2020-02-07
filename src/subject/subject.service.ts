@@ -21,6 +21,7 @@ export class SubjectService {
 
   async create(createSubjectDto: CreateSubjectDto): Promise<Subject> {
     const createdSubject = new this.subjectModel(createSubjectDto);
+
     return await createdSubject.save();
   }
 

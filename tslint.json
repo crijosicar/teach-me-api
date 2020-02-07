@@ -9,11 +9,37 @@
     "member-access": [false],
     "ordered-imports": [true],
     "max-line-length": [true, 150],
-    "member-ordering": [false],
+    "member-ordering": [
+      true,
+      {
+        "alphabetize": true
+      }
+    ],
     "interface-name": [false],
     "arrow-parens": false,
-    "object-literal-sort-keys": false,
-    "curly": [true, "ignore-same-line", "as-needed"]
+    "object-literal-sort-keys": true,
+    "curly": [true, "ignore-same-line", "as-needed"],
+    "no-empty-interface": true,
+    "only-arrow-functions": [
+      true,
+      "allow-declarations",
+      "allow-named-functions"
+    ],
+    "await-promise": [true, "Thenable"],
+    "forin": true,
+    "function-constructor": true,
+    "import-blacklist": true,
+    "no-async-without-await": true,
+    "no-console": [true, "log", "error"],
+    "no-construct": true,
+    "no-empty": true,
+    "no-eval": true,
+    "no-floating-promises": true,
+    "no-null-keyword": true,
+    "no-use-before-declare": true,
+    "prefer-conditional-expression": [true, "check-else-if"],
+    "no-consecutive-blank-lines": [true, 2],
+    "newline-before-return": true
   },
   "rulesDirectory": []
 }

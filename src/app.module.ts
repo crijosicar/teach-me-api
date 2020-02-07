@@ -22,6 +22,7 @@ import { UserModule } from './user/user.module';
 const { DATABASE_HOST } = process.env;
 
 @Module({
+  controllers: [AppController],
   imports: [
     ConfigModule.forRoot(),
     AuthModule,
@@ -36,7 +37,6 @@ const { DATABASE_HOST } = process.env;
     SkillModule,
     CourseModule,
   ],
-  controllers: [AppController],
   providers: [],
 })
 export class AppModule implements NestModule {

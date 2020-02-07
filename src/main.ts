@@ -1,14 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as compression from 'compression';
-import * as csurf from 'csurf';
+// import * as csurf from 'csurf';
 import * as rateLimit from 'express-rate-limit';
 import * as helmet from 'helmet';
 import { AppModule } from './app.module';
 
 const { PORT = 3000 } = process.env;
 
-async function bootstrap() {
+const bootstrap = async () => {
   const app = await NestFactory.create(AppModule, {
     cors: true,
     logger: ['error', 'warn'],
@@ -19,8 +19,8 @@ async function bootstrap() {
   // app.use(csurf());
   app.use(
     rateLimit({
-      windowMs: 2 * 60 * 1000, // 2 minutes
       max: 100, // limit each IP to 100 requests per windowMs
+      windowMs: 2 * 60 * 1000, // 2 minutes
     }),
   );
   app.use(compression());
@@ -35,5 +35,6 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   await app.listen(PORT);
-}
+};
+
 bootstrap();
