@@ -1,18 +1,5 @@
 import { Document, Schema } from 'mongoose';
-
-interface Certification extends Document {
-  name: string;
-  url: string;
-}
-
-export interface Study extends Document {
-  name: string;
-  description: string;
-  since: number;
-  until: number;
-  certifications: Certification[];
-  status: string;
-}
+import { Study } from './study.interface';
 
 export interface User extends Document {
   readonly name: string;
