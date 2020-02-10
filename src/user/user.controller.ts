@@ -133,6 +133,7 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get(':id/additional-data')
+  @UsePipes(new JoiValidationPipe(additionalUserDataValidationSchema))
   async setAdditionalData(
     @Param('id') id: string,
     @Body() additionalDataUserDto: AdditionalDataUserDto,
@@ -141,10 +142,6 @@ export class UserController {
       const user = await this.userService.find(id);
 
       if (!user) throw new Error('User provided does not exist.');
-
-      await additionalUserDataValidationSchema.validateAsync(
-        additionalDataUserDto,
-      );
 
       const { courses, studies, skills } = additionalDataUserDto;
 

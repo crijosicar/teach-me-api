@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ACTIVE_STATUS } from 'src/constants';
@@ -15,6 +16,7 @@ import { CreatePermissionDto } from './dto/createPermission.dto';
 import { Permission } from './interface/permission.interface';
 import { permissionValidationSchema } from './permission.schema';
 import { PermissionService } from './permission.service';
+import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
 
 @Controller('permission')
 export class PermissionController {
@@ -33,12 +35,11 @@ export class PermissionController {
   }
 
   @Post()
+  @UsePipes(new JoiValidationPipe(permissionValidationSchema))
   async create(
     @Body() createPermissionDto: CreatePermissionDto,
   ): Promise<Permission> {
     try {
-      await permissionValidationSchema.validateAsync(createPermissionDto);
-
       const createdAt = new Date().valueOf().toString();
 
       const permissionCreated = await this.permissionService.create({

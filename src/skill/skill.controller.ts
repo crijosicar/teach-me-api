@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { isUndefined } from 'lodash';
@@ -15,6 +16,7 @@ import { CreateSkillDto } from './dto/createSkill.dto';
 import { Skill } from './interface/skill.interface';
 import { skillValidationSchema } from './skill.schema';
 import { SkillService } from './skill.service';
+import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
 
 @Controller('skill')
 export class SkillController {
@@ -33,10 +35,9 @@ export class SkillController {
   }
 
   @Post()
+  @UsePipes(new JoiValidationPipe(skillValidationSchema))
   async create(@Body() createSkillDto: CreateSkillDto): Promise<Skill> {
     try {
-      await skillValidationSchema.validateAsync(createSkillDto);
-
       const createdAt = new Date().valueOf().toString();
       const skillCreated = await this.skillService.create({
         ...createSkillDto,

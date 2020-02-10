@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { compact, isUndefined, map, pick } from 'lodash';
@@ -20,6 +21,7 @@ import {
   roleValidationSchema,
 } from './role.schema';
 import { RoleService } from './role.service';
+import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
 
 @Controller('role')
 export class RoleController {
@@ -41,10 +43,9 @@ export class RoleController {
   }
 
   @Post()
+  @UsePipes(new JoiValidationPipe(roleValidationSchema))
   async create(@Body() createRoleDto: CreateRoleDto): Promise<Role> {
     try {
-      await roleValidationSchema.validateAsync(createRoleDto);
-
       const createdAt = new Date().valueOf().toString();
       const roleCreated = await this.roleService.create({
         ...createRoleDto,
@@ -66,15 +67,12 @@ export class RoleController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post(':id/permissions')
+  @UsePipes(new JoiValidationPipe(rolePermissionsValidationSchema))
   async assignRolePermissions(
     @Param('id') id: string,
     @Body() addRolePermissionsDto: AddRolePermissionsDto,
   ): Promise<Role> {
     try {
-      await rolePermissionsValidationSchema.validateAsync(
-        addRolePermissionsDto,
-      );
-
       const role = await this.roleService.find(id);
 
       if (!role) throw new Error('Not valid Role provided');

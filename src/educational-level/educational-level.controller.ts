@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ACTIVE_STATUS } from 'src/constants';
@@ -15,6 +16,7 @@ import { CreateEduLevelDto } from './dto/createEduLevel.dto';
 import { EducationalLevel } from './interface/educational-level.interface';
 import { educationalLevelValidationSchema } from './educational-level.schema';
 import { EducationalLevelService } from './educational-level.service';
+import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
 
 @Controller('educational-level')
 export class EducationalLevelController {
@@ -35,12 +37,11 @@ export class EducationalLevelController {
   }
 
   @Post()
+  @UsePipes(new JoiValidationPipe(educationalLevelValidationSchema))
   async create(
     @Body() createEduLevelDto: CreateEduLevelDto,
   ): Promise<EducationalLevel> {
     try {
-      await educationalLevelValidationSchema.validateAsync(createEduLevelDto);
-
       const createdAt = new Date().valueOf().toString();
 
       const createEduLevelCreated = await this.educationalLevelService.create({

@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { isUndefined } from 'lodash';
@@ -15,6 +16,7 @@ import { Course } from './interface/course.interface';
 import { courseValidationSchema } from './course.schema';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/createCourse.dto';
+import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
 
 @Controller('course')
 export class CourseController {
@@ -33,10 +35,9 @@ export class CourseController {
   }
 
   @Post()
+  @UsePipes(new JoiValidationPipe(courseValidationSchema))
   async create(@Body() createCourseDto: CreateCourseDto): Promise<Course> {
     try {
-      await courseValidationSchema.validateAsync(createCourseDto);
-
       const createdAt = new Date().valueOf().toString();
       const courseCreated = await this.courseService.create({
         ...createCourseDto,
