@@ -10,6 +10,7 @@ import {
   UploadedFile,
   UseGuards,
   UseInterceptors,
+  UsePipes,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -28,6 +29,7 @@ import {
   userValidationSchema,
 } from './user.schema';
 import { UserService } from './user.service';
+import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
 
 @Controller('user')
 export class UserController {
@@ -49,18 +51,15 @@ export class UserController {
   }
 
   @Post()
+  @UsePipes(new JoiValidationPipe(userValidationSchema))
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
     try {
-      await userValidationSchema.validateAsync(createUserDto);
-
       const { password } = createUserDto;
       const passHash = await hash(password, 10);
-      const createdAt = new Date().valueOf().toString();
 
       const userCreated = await this.userService.create({
         ...createUserDto,
         password: passHash,
-        createdAt,
         status: ACTIVE_STATUS,
       });
 
@@ -118,7 +117,7 @@ export class UserController {
   @Get(':id/avatar')
   async getAvatar(@Param('id') id: string, @Res() res: Response) {
     try {
-      const user: User = await this.userService.find(id);
+      const user = await this.userService.find(id);
       const avatar = last(compact(user.avatars));
       res.sendFile(avatar, { root: './' });
     } catch (error) {
@@ -133,13 +132,13 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get(':id/avatar')
+  @Get(':id/additional-data')
   async setAdditionalData(
     @Param('id') id: string,
     @Body() additionalDataUserDto: AdditionalDataUserDto,
   ) {
     try {
-      const user: User = await this.userService.find(id);
+      const user = await this.userService.find(id);
 
       if (!user) throw new Error('User provided does not exist.');
 

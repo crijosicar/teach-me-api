@@ -10,7 +10,7 @@ import {
 export const UserSchema = new Schema(
   {
     avatars: [{ type: String }],
-    birthdate: { type: String, required: true },
+    birthdate: { type: Date, required: true },
     email: { type: String, index: true, unique: true, required: true },
     name: { type: String, required: true },
     password: { type: String, required: true, select: false },
@@ -47,7 +47,7 @@ export const UserSchema = new Schema(
 );
 
 export const userValidationSchema = Joi.object({
-  birthdate: Joi.string().required(),
+  birthdate: Joi.date().required(),
   email: Joi.string().email({ minDomainSegments: 2 }),
   name: Joi.string()
     .min(3)
