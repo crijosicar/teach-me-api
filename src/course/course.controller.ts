@@ -11,10 +11,10 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { isUndefined } from 'lodash';
 import { ACTIVE_STATUS } from '../constants';
-import { Course } from './course.interface';
+import { Course } from './interface/course.interface';
 import { courseValidationSchema } from './course.schema';
 import { CourseService } from './course.service';
-import { CreateCourseDto } from './createCourse.dto';
+import { CreateCourseDto } from './dto/createCourse.dto';
 
 @Controller('course')
 export class CourseController {

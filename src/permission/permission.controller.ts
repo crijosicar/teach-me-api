@@ -11,8 +11,8 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { ACTIVE_STATUS } from 'src/constants';
 import { isUndefined } from 'util';
-import { CreatePermissionDto } from './createPermission.dto';
-import { Permission } from './permission.interface';
+import { CreatePermissionDto } from './dto/createPermission.dto';
+import { Permission } from './interface/permission.interface';
 import { permissionValidationSchema } from './permission.schema';
 import { PermissionService } from './permission.service';
 

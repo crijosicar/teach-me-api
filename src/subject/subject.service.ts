@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { SUBJECT_MODEL } from '../constants';
-import { CreateSubjectDto } from './createSubject.dto';
-import { Subject } from './subject.interface';
+import { CreateSubjectDto } from './dto/createSubject.dto';
+import { Subject } from './interface/subject.interface';
 
 @Injectable()
 export class SubjectService {

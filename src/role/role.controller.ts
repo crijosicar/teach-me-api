@@ -12,9 +12,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { compact, isUndefined, map, pick } from 'lodash';
 import { PermissionService } from 'src/permission/permission.service';
 import { ACTIVE_STATUS } from '../constants';
-import { AddRolePermissionsDto } from './addRolePermissions.dto';
-import { CreateRoleDto } from './createRole.dto';
-import { Role } from './role.interface';
+import { AddRolePermissionsDto } from './dto/addRolePermissions.dto';
+import { CreateRoleDto } from './dto/createRole.dto';
+import { Role } from './interface/role.interface';
 import {
   rolePermissionsValidationSchema,
   roleValidationSchema,

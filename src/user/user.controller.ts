@@ -21,8 +21,8 @@ import { editFileName, imageFileFilter } from '../common/file-upload.util';
 import { ACTIVE_STATUS, STUDENT_ROLE } from '../constants';
 import { RoleService } from '../role/role.service';
 import { AdditionalDataUserDto } from './AdditionalDataUser.dto';
-import { CreateUserDto } from './createUser.dto';
-import { User } from './user.interface';
+import { CreateUserDto } from './dto/createUser.dto';
+import { User } from './interface/user.interface';
 import {
   additionalUserDataValidationSchema,
   userValidationSchema,

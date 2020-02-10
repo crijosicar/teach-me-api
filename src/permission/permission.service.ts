@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { PERMISSION_MODEL } from 'src/constants';
-import { CreatePermissionDto } from './createPermission.dto';
-import { Permission } from './permission.interface';
+import { CreatePermissionDto } from './dto/createPermission.dto';
+import { Permission } from './interface/permission.interface';
 
 @Injectable()
 export class PermissionService {

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ROLE_MODEL } from '../constants';
-import { CreateRoleDto } from './createRole.dto';
-import { Role } from './role.interface';
+import { CreateRoleDto } from './dto/createRole.dto';
+import { Role } from './interface/role.interface';
 
 @Injectable()
 export class RoleService {

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { EDUCATIONAL_LEVEL_MODEL } from 'src/constants';
-import { CreateEduLevelDto } from './createEduLevel.dto';
-import { EducationalLevel } from './educational-level.interface';
+import { CreateEduLevelDto } from './dto/createEduLevel.dto';
+import { EducationalLevel } from './interface/educational-level.interface';
 
 @Injectable()
 export class EducationalLevelService {

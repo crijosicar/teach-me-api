@@ -11,8 +11,8 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { isUndefined } from 'lodash';
 import { ACTIVE_STATUS } from '../constants';
-import { CreateSkillDto } from './createSkill.dto';
-import { Skill } from './skill.interface';
+import { CreateSkillDto } from './dto/createSkill.dto';
+import { Skill } from './interface/skill.interface';
 import { skillValidationSchema } from './skill.schema';
 import { SkillService } from './skill.service';
 

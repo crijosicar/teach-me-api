@@ -13,11 +13,11 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { compact, isUndefined, map } from 'lodash';
 import { EducationalLevelService } from 'src/educational-level/educational-level.service';
-import { Role } from 'src/role/role.interface';
+import { Role } from 'src/role/interface/role.interface';
 import { ACTIVE_STATUS } from '../constants';
-import { AddEduLevelSubjectDto } from './addEduLevelSubject.dto';
-import { CreateSubjectDto } from './createSubject.dto';
-import { Subject } from './subject.interface';
+import { AddEduLevelSubjectDto } from './dto/addEduLevelSubject.dto';
+import { CreateSubjectDto } from './dto/createSubject.dto';
+import { Subject } from './interface/subject.interface';
 import { eduLevelsValidationSchema } from './subject.schema';
 import { subjectValidationSchema } from './subject.schema';
 import { SubjectService } from './subject.service';

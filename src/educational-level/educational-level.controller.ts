@@ -11,8 +11,8 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { ACTIVE_STATUS } from 'src/constants';
 import { isUndefined } from 'util';
-import { CreateEduLevelDto } from './createEduLevel.dto';
-import { EducationalLevel } from './educational-level.interface';
+import { CreateEduLevelDto } from './dto/createEduLevel.dto';
+import { EducationalLevel } from './interface/educational-level.interface';
 import { educationalLevelValidationSchema } from './educational-level.schema';
 import { EducationalLevelService } from './educational-level.service';
 
