@@ -1,10 +1,10 @@
+import { Schema } from '@hapi/joi';
 import {
-  PipeTransform,
-  Injectable,
   ArgumentMetadata,
   BadRequestException,
+  Injectable,
+  PipeTransform,
 } from '@nestjs/common';
-import { Schema } from '@hapi/joi';
 
 @Injectable()
 export class JoiValidationPipe implements PipeTransform {
