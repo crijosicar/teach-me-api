@@ -38,11 +38,8 @@ export class SkillController {
   @UsePipes(new JoiValidationPipe(skillValidationSchema))
   async create(@Body() createSkillDto: CreateSkillDto): Promise<Skill> {
     try {
-      const createdAt = new Date().valueOf().toString();
-
       return this.skillService.create({
         ...createSkillDto,
-        createdAt,
         status: ACTIVE_STATUS,
       });
     } catch (error) {

@@ -41,11 +41,8 @@ export class SubjectController {
   @UsePipes(new JoiValidationPipe(subjectValidationSchema))
   async create(@Body() createSubjectDto: CreateSubjectDto): Promise<Subject> {
     try {
-      const createdAt = new Date().valueOf().toString();
-
       return this.subjectService.create({
         ...createSubjectDto,
-        createdAt,
         status: ACTIVE_STATUS,
       });
     } catch (error) {

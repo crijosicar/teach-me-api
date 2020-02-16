@@ -11,12 +11,12 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { isUndefined } from 'lodash';
+import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
 import { ACTIVE_STATUS } from '../constants';
-import { Course } from './interface/course.interface';
 import { courseValidationSchema } from './course.schema';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/createCourse.dto';
-import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
+import { Course } from './interface/course.interface';
 
 @Controller('course')
 export class CourseController {
@@ -38,10 +38,8 @@ export class CourseController {
   @UsePipes(new JoiValidationPipe(courseValidationSchema))
   async create(@Body() createCourseDto: CreateCourseDto): Promise<Course> {
     try {
-      const createdAt = new Date().valueOf().toString();
       const courseCreated = await this.courseService.create({
         ...createCourseDto,
-        createdAt,
         status: ACTIVE_STATUS,
       });
 

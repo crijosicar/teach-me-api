@@ -10,13 +10,13 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
 import { ACTIVE_STATUS } from 'src/constants';
 import { isUndefined } from 'util';
 import { CreateEduLevelDto } from './dto/createEduLevel.dto';
-import { EducationalLevel } from './interface/educational-level.interface';
 import { educationalLevelValidationSchema } from './educational-level.schema';
 import { EducationalLevelService } from './educational-level.service';
-import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
+import { EducationalLevel } from './interface/educational-level.interface';
 
 @Controller('educational-level')
 export class EducationalLevelController {
