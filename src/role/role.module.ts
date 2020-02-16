@@ -9,6 +9,8 @@ import { RoleSchema } from './role.schema';
 import { RoleService } from './role.service';
 
 @Module({
+  controllers: [RoleController],
+  exports: [RoleService],
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forFeature([
@@ -17,7 +19,5 @@ import { RoleService } from './role.service';
     ]),
   ],
   providers: [RoleService, PermissionService],
-  controllers: [RoleController],
-  exports: [RoleService],
 })
 export class RoleModule {}

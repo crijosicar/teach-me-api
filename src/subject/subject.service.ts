@@ -16,13 +16,13 @@ export class SubjectService {
   }
 
   async findAll(): Promise<Subject[]> {
-    return await this.subjectModel.find().exec();
+    return this.subjectModel.find().exec();
   }
 
   async create(createSubjectDto: CreateSubjectDto): Promise<Subject> {
     const createdSubject = new this.subjectModel(createSubjectDto);
 
-    return await createdSubject.save();
+    return createdSubject.save();
   }
 
   async addEducationalLevelsSubject(

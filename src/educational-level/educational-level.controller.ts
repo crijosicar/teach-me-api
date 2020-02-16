@@ -42,15 +42,10 @@ export class EducationalLevelController {
     @Body() createEduLevelDto: CreateEduLevelDto,
   ): Promise<EducationalLevel> {
     try {
-      const createdAt = new Date().valueOf().toString();
-
-      const createEduLevelCreated = await this.educationalLevelService.create({
+      return this.educationalLevelService.create({
         ...createEduLevelDto,
-        createdAt,
         status: ACTIVE_STATUS,
       });
-
-      return createEduLevelCreated;
     } catch (error) {
       const message = isUndefined(error.response)
         ? error.message

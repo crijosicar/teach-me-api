@@ -11,12 +11,12 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { isUndefined } from 'lodash';
+import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
 import { ACTIVE_STATUS } from '../constants';
 import { CreateSkillDto } from './dto/createSkill.dto';
 import { Skill } from './interface/skill.interface';
 import { skillValidationSchema } from './skill.schema';
 import { SkillService } from './skill.service';
-import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
 
 @Controller('skill')
 export class SkillController {
@@ -39,13 +39,12 @@ export class SkillController {
   async create(@Body() createSkillDto: CreateSkillDto): Promise<Skill> {
     try {
       const createdAt = new Date().valueOf().toString();
-      const skillCreated = await this.skillService.create({
+
+      return this.skillService.create({
         ...createSkillDto,
         createdAt,
         status: ACTIVE_STATUS,
       });
-
-      return skillCreated;
     } catch (error) {
       const message = isUndefined(error.response)
         ? error.message

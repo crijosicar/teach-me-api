@@ -1,4 +1,4 @@
-import { CheckIdMiddleware } from './checkId.middleware';
+import { CheckIdMiddleware } from './check-id.middleware';
 
 describe('CheckIdMiddleware', () => {
   it('should be defined', () => {

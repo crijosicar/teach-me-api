@@ -3,18 +3,18 @@ import * as mongoose from 'mongoose';
 
 export const EducationalLevelSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
     description: { type: String },
+    name: { type: String, required: true },
     status: { type: String, required: true },
   },
   { timestamps: true },
 );
 
 export const educationalLevelValidationSchema = Joi.object({
-  name: Joi.string()
+  description: Joi.string()
     .min(3)
     .required(),
-  description: Joi.string()
+  name: Joi.string()
     .min(3)
     .required(),
 });

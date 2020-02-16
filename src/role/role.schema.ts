@@ -4,13 +4,13 @@ import { PERMISSION_MODEL } from 'src/constants';
 
 export const RoleSchema = new mongoose.Schema(
   {
-    name: { type: String, index: true, unique: true, required: true },
     description: { type: String, required: true },
+    name: { type: String, index: true, unique: true, required: true },
     permissions: [
       {
-        type: mongoose.Schema.Types.ObjectId,
         ref: PERMISSION_MODEL,
         required: false,
+        type: mongoose.Schema.Types.ObjectId,
       },
     ],
     status: { type: String, required: true },
@@ -19,10 +19,10 @@ export const RoleSchema = new mongoose.Schema(
 );
 
 export const roleValidationSchema = Joi.object({
+  description: Joi.string(),
   name: Joi.string()
     .min(3)
     .required(),
-  description: Joi.string(),
 });
 
 export const rolePermissionsValidationSchema = Joi.object({

@@ -9,6 +9,8 @@ import { SubjectSchema } from './subject.schema';
 import { SubjectService } from './subject.service';
 
 @Module({
+  controllers: [SubjectController],
+  exports: [SubjectService],
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forFeature([
@@ -17,8 +19,6 @@ import { SubjectService } from './subject.service';
     ]),
     CacheModule.register(),
   ],
-  controllers: [SubjectController],
   providers: [SubjectService, EducationalLevelService],
-  exports: [SubjectService],
 })
 export class SubjectModule {}

@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { compact, isUndefined, map } from 'lodash';
+import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
 import { EducationalLevelService } from 'src/educational-level/educational-level.service';
 import { Role } from 'src/role/interface/role.interface';
 import { ACTIVE_STATUS } from '../constants';
@@ -22,7 +23,6 @@ import { Subject } from './interface/subject.interface';
 import { eduLevelsValidationSchema } from './subject.schema';
 import { subjectValidationSchema } from './subject.schema';
 import { SubjectService } from './subject.service';
-import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
 
 @Controller('subject')
 @UseInterceptors(CacheInterceptor)
@@ -43,12 +43,11 @@ export class SubjectController {
     try {
       const createdAt = new Date().valueOf().toString();
 
-      const subjectCreated = await this.subjectService.create({
+      return this.subjectService.create({
         ...createSubjectDto,
         createdAt,
         status: ACTIVE_STATUS,
       });
-      return subjectCreated;
     } catch (error) {
       const message = isUndefined(error.response)
         ? error.message
@@ -84,12 +83,11 @@ export class SubjectController {
         throw new Error('Not valid Educational Levels provided');
 
       const educationalLevelsIds = map(compactedEducationalLevels, '_id');
-      const educationalLevelsAssigned = await this.subjectService.addEducationalLevelsSubject(
+
+      return this.subjectService.addEducationalLevelsSubject(
         id,
         educationalLevelsIds,
       );
-
-      return educationalLevelsAssigned;
     } catch (error) {
       const message = isUndefined(error.response)
         ? error.message

@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { compact, isUndefined, map, pick } from 'lodash';
+import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
 import { PermissionService } from 'src/permission/permission.service';
 import { ACTIVE_STATUS } from '../constants';
 import { AddRolePermissionsDto } from './dto/addRolePermissions.dto';
@@ -21,7 +22,6 @@ import {
   roleValidationSchema,
 } from './role.schema';
 import { RoleService } from './role.service';
-import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
 
 @Controller('role')
 export class RoleController {
@@ -46,14 +46,10 @@ export class RoleController {
   @UsePipes(new JoiValidationPipe(roleValidationSchema))
   async create(@Body() createRoleDto: CreateRoleDto): Promise<Role> {
     try {
-      const createdAt = new Date().valueOf().toString();
-      const roleCreated = await this.roleService.create({
+      return this.roleService.create({
         ...createRoleDto,
-        createdAt,
         status: ACTIVE_STATUS,
       });
-
-      return roleCreated;
     } catch (error) {
       const message = isUndefined(error.response)
         ? error.message
@@ -89,12 +85,8 @@ export class RoleController {
         throw new Error('Not valid Permissions provided');
 
       const permissionsIds = map(compactedPermissions, '_id');
-      const rolePermissionAssigned = await this.roleService.addRolePermissions(
-        id,
-        permissionsIds,
-      );
 
-      return rolePermissionAssigned;
+      return this.roleService.addRolePermissions(id, permissionsIds);
     } catch (error) {
       const message = isUndefined(error.response)
         ? error.message
