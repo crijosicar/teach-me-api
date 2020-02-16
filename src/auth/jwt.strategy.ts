@@ -8,18 +8,20 @@ const { JWT_SECRET } = process.env;
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: JWT_SECRET!,
     });
   }
 
   async validate(payload: any) {
+    const { birthdate, email, sub: id, name } = payload;
+
     return {
-      id: payload.sub,
-      email: payload.email,
-      name: payload.name,
-      birthdate: payload.birthdate,
+      birthdate,
+      email,
+      id,
+      name,
     };
   }
 }

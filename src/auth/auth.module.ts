@@ -10,6 +10,7 @@ import { LocalStrategy } from './local.strategy';
 const { JWT_SECRET } = process.env;
 
 @Module({
+  exports: [AuthService],
   imports: [
     ConfigModule.forRoot(),
     UserModule,
@@ -20,6 +21,5 @@ const { JWT_SECRET } = process.env;
     }),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy],
-  exports: [AuthService],
 })
 export class AuthModule {}
