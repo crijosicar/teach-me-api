@@ -10,7 +10,7 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { compact, isUndefined, map, pick } from 'lodash';
+import { compact, isUndefined, map } from 'lodash';
 import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
 import { PermissionService } from 'src/permission/permission.service';
 import { ACTIVE_STATUS } from '../constants';
