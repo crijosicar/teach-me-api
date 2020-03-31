@@ -8,10 +8,9 @@ import { AppModule } from './app.module';
 
 const { PORT = 3000 } = process.env;
 
-if (!process.env.IS_TS_NODE) {
+if (!process.env.IS_TS_NODE)
   // tslint:disable-next-line:no-var-requires
   require('module-alias/register');
-}
 
 const bootstrap = async () => {
   const app = await NestFactory.create(AppModule, {
