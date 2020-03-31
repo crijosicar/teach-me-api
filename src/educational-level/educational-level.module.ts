@@ -1,7 +1,7 @@
+import { EDUCATIONAL_LEVEL_MODEL } from '@app/constants';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { EDUCATIONAL_LEVEL_MODEL } from '../constants';
 import { EducationalLevelController } from './educational-level.controller';
 import { EducationalLevelSchema } from './educational-level.schema';
 import { EducationalLevelService } from './educational-level.service';

@@ -1,11 +1,11 @@
-import * as Joi from '@hapi/joi';
-import { Schema } from 'mongoose';
 import {
   COURSE_MODEL,
   ROLE_MODEL,
   SKILL_MODEL,
   SUBJECT_MODEL,
-} from '../constants';
+} from '@app/constants';
+import * as Joi from '@hapi/joi';
+import { Schema } from 'mongoose';
 
 export const UserSchema = new Schema(
   {

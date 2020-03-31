@@ -1,7 +1,7 @@
+import { SUBJECT_MODEL } from '@app/constants';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { SUBJECT_MODEL } from '../constants';
 import { CreateSubjectDto } from './dto/createSubject.dto';
 import { Subject } from './interface/subject.interface';
 

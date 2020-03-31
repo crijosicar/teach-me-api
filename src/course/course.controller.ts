@@ -1,3 +1,4 @@
+import { JoiValidationPipe } from '@app/common/joi-validation.pipe';
 import {
   Body,
   Controller,
@@ -11,7 +12,6 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { isUndefined } from 'lodash';
-import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
 import { ACTIVE_STATUS } from '../constants';
 import { courseValidationSchema } from './course.schema';
 import { CourseService } from './course.service';

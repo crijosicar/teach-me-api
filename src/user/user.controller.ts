@@ -1,3 +1,7 @@
+import { editFileName, imageFileFilter } from '@app/common/file-upload.util';
+import { JoiValidationPipe } from '@app/common/joi-validation.pipe';
+import { ACTIVE_STATUS, STUDENT_ROLE } from '@app/constants';
+import { RoleService } from '@app/role/role.service';
 import {
   Body,
   Controller,
@@ -18,10 +22,6 @@ import { hash } from 'bcrypt';
 import { Response } from 'express';
 import { compact, isUndefined, last, map } from 'lodash';
 import { diskStorage } from 'multer';
-import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
-import { editFileName, imageFileFilter } from '../common/file-upload.util';
-import { ACTIVE_STATUS, STUDENT_ROLE } from '../constants';
-import { RoleService } from '../role/role.service';
 import { AdditionalDataUserDto } from './dto/additionalDataUser.dto';
 import { CreateUserDto } from './dto/createUser.dto';
 import { User } from './interface/user.interface';

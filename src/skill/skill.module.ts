@@ -1,7 +1,7 @@
+import { SKILL_MODEL } from '@app/constants';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SKILL_MODEL } from '../constants';
 import { SkillController } from './skill.controller';
 import { SkillSchema } from './skill.schema';
 import { SkillService } from './skill.service';

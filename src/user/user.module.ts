@@ -1,15 +1,17 @@
+import { ROLE_MODEL, USER_MODEL } from '@app/constants';
+import { RoleSchema } from '@app/role/role.schema';
+import { RoleService } from '@app/role/role.service';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MulterModule } from '@nestjs/platform-express';
-import { RoleSchema } from 'src/role/role.schema';
-import { RoleService } from 'src/role/role.service';
-import { ROLE_MODEL, USER_MODEL } from '../constants';
 import { UserController } from './user.controller';
 import { UserSchema } from './user.schema';
 import { UserService } from './user.service';
 
 @Module({
+  controllers: [UserController],
+  exports: [UserService],
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forFeature([
@@ -18,8 +20,6 @@ import { UserService } from './user.service';
     ]),
     MulterModule.register(),
   ],
-  controllers: [UserController],
   providers: [UserService, RoleService],
-  exports: [UserService],
 })
 export class UserModule {}

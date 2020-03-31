@@ -1,3 +1,7 @@
+import { JoiValidationPipe } from '@app/common/joi-validation.pipe';
+import { ACTIVE_STATUS } from '@app/constants';
+import { EducationalLevelService } from '@app/educational-level/educational-level.service';
+import { Role } from '@app/role/interface/role.interface';
 import {
   Body,
   CacheInterceptor,
@@ -13,10 +17,6 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { compact, isUndefined, map } from 'lodash';
-import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
-import { EducationalLevelService } from 'src/educational-level/educational-level.service';
-import { Role } from 'src/role/interface/role.interface';
-import { ACTIVE_STATUS } from '../constants';
 import { AddEduLevelSubjectDto } from './dto/addEduLevelSubject.dto';
 import { CreateSubjectDto } from './dto/createSubject.dto';
 import { Subject } from './interface/subject.interface';

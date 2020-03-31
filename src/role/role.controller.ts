@@ -1,3 +1,6 @@
+import { JoiValidationPipe } from '@app/common/joi-validation.pipe';
+import { ACTIVE_STATUS } from '@app/constants';
+import { PermissionService } from '@app/permission/permission.service';
 import {
   Body,
   Controller,
@@ -11,9 +14,6 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { compact, isUndefined, map } from 'lodash';
-import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
-import { PermissionService } from 'src/permission/permission.service';
-import { ACTIVE_STATUS } from '../constants';
 import { AddRolePermissionsDto } from './dto/addRolePermissions.dto';
 import { CreateRoleDto } from './dto/createRole.dto';
 import { Role } from './interface/role.interface';

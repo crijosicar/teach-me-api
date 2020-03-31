@@ -1,6 +1,6 @@
 {
   "name": "teach-me-app",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "",
   "author": "",
   "license": "MIT",
@@ -8,7 +8,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
-    "start": "nest start",
+    "start": "IS_TS_NODE=true ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -43,6 +43,7 @@
     "helmet": "^3.21.2",
     "jwks-rsa": "^1.6.0",
     "lodash": "^4.17.15",
+    "module-alias": "^2.2.2",
     "mongoose": "^5.8.3",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
@@ -99,5 +100,8 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {}
+  },
+  "_moduleAliases": {
+    "@app": "./dist"
   }
 }

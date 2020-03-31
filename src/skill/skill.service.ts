@@ -1,7 +1,7 @@
+import { SKILL_MODEL } from '@app/constants';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { SKILL_MODEL } from '../constants';
 import { CreateSkillDto } from './dto/createSkill.dto';
 import { Skill } from './interface/skill.interface';
 

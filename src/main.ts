@@ -8,6 +8,11 @@ import { AppModule } from './app.module';
 
 const { PORT = 3000 } = process.env;
 
+if (!process.env.IS_TS_NODE) {
+  // tslint:disable-next-line:no-var-requires
+  require('module-alias/register');
+}
+
 const bootstrap = async () => {
   const app = await NestFactory.create(AppModule, {
     cors: true,
@@ -26,17 +31,19 @@ const bootstrap = async () => {
   app.use(compression());
 
   const options = new DocumentBuilder()
-    .setTitle('Subject')
-    .setDescription('The subjects API description')
-    .setVersion('1.0')
-    .addTag('subjects')
+    .setTitle('Teach Me CORE API')
+    .setDescription('CORE API')
+    .setVersion('1.1')
+    .addTag('core')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
 
   await app.listen(PORT);
 
+  // tslint:disable-next-line: no-console
   console.log(`App started at port ${PORT}`);
 };
 
+// tslint:disable-next-line: no-floating-promises
 bootstrap();

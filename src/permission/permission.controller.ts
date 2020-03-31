@@ -1,3 +1,5 @@
+import { JoiValidationPipe } from '@app/common/joi-validation.pipe';
+import { ACTIVE_STATUS } from '@app/constants';
 import {
   Body,
   Controller,
@@ -11,8 +13,6 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { isUndefined } from 'lodash';
-import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
-import { ACTIVE_STATUS } from 'src/constants';
 import { CreatePermissionDto } from './dto/createPermission.dto';
 import { Permission } from './interface/permission.interface';
 import { permissionValidationSchema } from './permission.schema';
