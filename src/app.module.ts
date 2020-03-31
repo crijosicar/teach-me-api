@@ -30,7 +30,10 @@ const { DATABASE_HOST } = process.env;
     UserModule,
     ScheduleModule.forRoot(),
     CacheModule.register(),
-    MongooseModule.forRoot(DATABASE_HOST!),
+    MongooseModule.forRoot(DATABASE_HOST!, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }),
     RoleModule,
     PermissionModule,
     EducationalLevelModule,

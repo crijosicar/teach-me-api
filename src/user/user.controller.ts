@@ -96,12 +96,11 @@ export class UserController {
   )
   async uploadFile(@Param('id') id: string, @UploadedFile() file: any) {
     try {
-      const { filename, originalname, path } = file;
+      const { originalname, path } = file;
 
       await this.userService.addAvatarToUserById(id, path);
 
       return {
-        filename,
         originalname,
       };
     } catch (error) {
@@ -135,10 +134,10 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post(':id/additional-data')
-  @UsePipes(new JoiValidationPipe(additionalUserDataValidationSchema))
   async setAdditionalData(
     @Param('id') id: string,
-    @Body() additionalDataUserDto: AdditionalDataUserDto,
+    @Body(new JoiValidationPipe(additionalUserDataValidationSchema))
+    additionalDataUserDto: AdditionalDataUserDto,
   ) {
     try {
       const user = await this.userService.find(id);

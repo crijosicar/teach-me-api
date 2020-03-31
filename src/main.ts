@@ -31,7 +31,7 @@ const bootstrap = async () => {
   app.use(compression());
 
   const options = new DocumentBuilder()
-    .setTitle('Teach Me CORE API')
+    .setTitle('Teach Me | CORE API')
     .setDescription('CORE API')
     .setVersion('1.1')
     .addTag('core')

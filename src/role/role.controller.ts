@@ -63,10 +63,10 @@ export class RoleController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post(':id/permissions')
-  @UsePipes(new JoiValidationPipe(rolePermissionsValidationSchema))
   async assignRolePermissions(
     @Param('id') id: string,
-    @Body() addRolePermissionsDto: AddRolePermissionsDto,
+    @Body(new JoiValidationPipe(rolePermissionsValidationSchema))
+    addRolePermissionsDto: AddRolePermissionsDto,
   ): Promise<Role> {
     try {
       const role = await this.roleService.find(id);

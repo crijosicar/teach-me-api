@@ -58,10 +58,10 @@ export class SubjectController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post(':id/educational-levels')
-  @UsePipes(new JoiValidationPipe(eduLevelsValidationSchema))
   async addEducationalLevelSubject(
     @Param('id') id: string,
-    @Body() addEduLevelSubjectDto: AddEduLevelSubjectDto,
+    @Body(new JoiValidationPipe(eduLevelsValidationSchema))
+    addEduLevelSubjectDto: AddEduLevelSubjectDto,
   ): Promise<Role> {
     try {
       const subject = await this.subjectService.find(id);
